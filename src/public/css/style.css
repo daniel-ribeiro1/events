@@ -1,0 +1,8 @@
+.max-width-1200 {
+    max-width: 1200px;
+}
+
+.login {
+    max-width: 450px;
+    min-width: 260px;
+}
