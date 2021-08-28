@@ -8,3 +8,7 @@ export function newEvent(req: Request, res: Response) {
     res.render('user/newEvent');
 }
 
+export function editEvent(req: Request, res: Response) {
+    res.render("user/editEvent");
+}
+

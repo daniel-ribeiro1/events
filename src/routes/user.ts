@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', UserController.myEvents);
 router.get('/new-event', UserController.newEvent);
+router.get('/edit-event', UserController.editEvent);
 
 export default router;
