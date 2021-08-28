@@ -3,8 +3,8 @@ import mustache from 'mustache-express';
 import { join } from 'path';
 import dotenv from 'dotenv';
 
-
 import mainRoutes from './routes/index';
+import userRoutes from './routes/user';
 
 dotenv.config();
 const server = express();
@@ -22,6 +22,8 @@ server.use(express.urlencoded({ extended: true }));
 
 // Routes
 server.use(mainRoutes);
+server.use('/user', userRoutes);
+
 server.get('*', (req, res) => {
     res.send("Página não encontrada!");
     // res.render('NotFound');

@@ -1,0 +1,38 @@
+{{>partials/header}}
+
+<div class="container-fluid max-width-1200 my-4">
+    <h2 class="text-primary">Meus Eventos</h2>
+    <hr/>
+
+    <div class="container-fluid d-flex justify-content-center justify-content-lg-start flex-wrap">
+        {{#events}}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{title}}</h5>
+                    <div class="my-3">
+                        <small class="card-subtitle text-muted"> 
+                            Início:
+                            {{startTime}}
+                        </small><br/>
+                        <small class="card-subtitle text-muted"> 
+                            Fim:
+                            {{endTime}}
+                        </small><br/>
+                        <small>
+                            <small class="badge rounded-pill bg-success">Status:</small>
+                            <small class="text-primary">Em andamento</small>
+                        </small>
+                    </div>
+                    <p class="card-text mt-3 text-black-50">{{content}}</p>
+                    <a href="#" class="card-link">Edit</a>
+                    <a href="#" class="card-link text-danger">Delete</a>
+                </div>
+            </div>
+        {{/events}}
+        {{^events}}
+            <p class="my-5 text-black-50"> Nenhum evento cadastrado ainda...</p>
+        {{/events}}
+    </div>
+</div>
+
+{{>partials/footer}}
