@@ -12,3 +12,6 @@ export function editEvent(req: Request, res: Response) {
     res.render("user/editEvent");
 }
 
+export function profile(req: Request, res: Response) {
+    res.render('user/profile');
+}
