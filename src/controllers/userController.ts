@@ -5,13 +5,13 @@ export function myEvents(req: Request, res: Response) {
 }
 
 export function newEvent(req: Request, res: Response) {
-    res.render('user/newEvent');
+    res.render('user/newEvent', {userIsAuthenticated: true});
 }
 
 export function editEvent(req: Request, res: Response) {
-    res.render("user/editEvent");
+    res.render("user/editEvent", {userIsAuthenticated: true});
 }
 
 export function profile(req: Request, res: Response) {
-    res.render('user/profile');
+    res.render('user/profile', {userIsAuthenticated: true});
 }

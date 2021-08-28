@@ -25,7 +25,7 @@ server.use(mainRoutes);
 server.use('/user', userRoutes);
 
 server.get('*', (req, res) => {
-    res.render('notFound');
+    res.render('notFound', {userIsAuthenticated: true});
 });
 
 server.listen(process.env.PORT);
