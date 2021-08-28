@@ -25,8 +25,7 @@ server.use(mainRoutes);
 server.use('/user', userRoutes);
 
 server.get('*', (req, res) => {
-    res.send("Página não encontrada!");
-    // res.render('NotFound');
+    res.render('notFound');
 });
 
 server.listen(process.env.PORT);
