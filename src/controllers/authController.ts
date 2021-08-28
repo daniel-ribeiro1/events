@@ -5,3 +5,7 @@ export function login(req: Request, res: Response) {
 
     res.render('login', { userIsAuthenticated });
 }
+
+export function register(req: Request, res: Response) {
+    res.render('register');
+}
