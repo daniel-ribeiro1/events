@@ -4,3 +4,7 @@ export function myEvents(req: Request, res: Response) {
     res.render('user/myEvents', {userIsAuthenticated: true});
 }
 
+export function newEvent(req: Request, res: Response) {
+    res.render('user/newEvent');
+}
+
