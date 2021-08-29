@@ -198,6 +198,17 @@ export async function editEventAction(req: Request, res: Response) {
     res.redirect('/user/edit-event/' + req.params.id);
 }
 
+// Delete event
+export async function deleteEventAction(req: Request, res: Response) {
+    await Event.destroy({
+        where: {
+            id: req.params.id
+        }
+    });
+
+    res.redirect('/user');
+}
+
 // Edit profile
 export function profile(req: Request, res: Response) {
     res.render('user/profile', {userIsAuthenticated: true});
