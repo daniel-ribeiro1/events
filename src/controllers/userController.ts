@@ -93,8 +93,16 @@ export async function newEventAction(req: Request, res: Response) {
 }
 
 // Edit event 
-export function editEvent(req: Request, res: Response) {
-    res.render("user/editEvent", {userIsAuthenticated: true});
+export async function editEvent(req: Request, res: Response) {
+    const currentEvent = await Event.findByPk(req.params.id);
+
+    if(!currentEvent) {
+        return res.redirect('/user');
+    }
+
+    console.log(currentEvent)
+
+    res.render("user/editEvent", { userIsAuthenticated: true, currentEvent});
 }
 
 // Edit profile

@@ -6,7 +6,7 @@ export interface EventInstance extends Model {
     title: string,
     startTie: number,
     endTime: number,
-    descriptiom: string
+    description: string
 }
 
 export const Event = sequelize.define<EventInstance>('Event', {
