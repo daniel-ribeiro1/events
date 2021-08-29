@@ -4,6 +4,8 @@
     <h2 class="text-primary">Novo Evento</h2>
     <hr/>
 
+    {{>partials/messages}}
+
     <form method="POST" class="col-md-10 col-lg-8 mx-auto my-5 p-2">
         <div class="row form-floating">
             <input class="form-control" type="text" name="title" placeholder="Informe o título do evento" id="title"/>
@@ -22,6 +24,7 @@
         <div class="row form-floating my-3">
             <textarea class="form-control" id="description" name="description" placeholder="Escreva a descrição do evento aqui"></textarea>
             <label for="description">Descrição</label>
+            <small class="text-muted mt-1 smb-3">A descrição deve conter, no máximo, 240 cacarteres.</small>
         </div>
         <button class="btn btn-outline-primary m-0">Criar evento</button>
     </form>

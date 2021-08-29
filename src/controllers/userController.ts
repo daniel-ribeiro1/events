@@ -21,6 +21,7 @@ export async function newEventAction(req: Request, res: Response) {
     let currentTime = new Date().getTime();
 
     if(!title || !startTime || !endTime) {
+        req.flash('warning', 'Preencha os campos!');
         return res.redirect('/user/new-event');
     }
 
@@ -28,13 +29,20 @@ export async function newEventAction(req: Request, res: Response) {
     endTime = getTimeStringInMilliseconds(endTime);
 
     if(description && description.length > 240) {
+        req.flash('warning', 'A descrição não pode contar mais que 240 caracteres.');
         return res.redirect('/user/new-event');
     }
 
     // Event time validations 
-    if(startTime >= endTime || startTime < currentTime) {
+    if(startTime >= endTime) {
+        req.flash('warning', 'O horário de início do evento deve ser maior que o horário de término do mesmo.')
         return res.redirect('/user/new-event');
     }
+    if(startTime < currentTime) {
+        req.flash('warning', 'O horário de início do evento deve ser maior que o horário atual.')
+        return res.redirect('/user/new-event');
+    }
+
     const numberOfEventsFound = await Event.count({
         where: {
             [Op.or]: [
@@ -88,6 +96,7 @@ export async function newEventAction(req: Request, res: Response) {
         }
     })
     if(numberOfEventsFound > 0) {
+        req.flash('error', 'Não foi possível criar o evento pois houve choque de horários.');
         return res.redirect('/user/new-event');
     }
 
@@ -98,6 +107,7 @@ export async function newEventAction(req: Request, res: Response) {
         description
     });
 
+    req.flash('success', 'Evento criado com sucesso!');
     res.redirect('/user');
 }
 
