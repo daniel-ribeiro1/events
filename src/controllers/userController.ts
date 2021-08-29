@@ -23,6 +23,10 @@ export async function newEventAction(req: Request, res: Response) {
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
 
+    if(description.length > 240) {
+        return res.redirect('/user/edit-event/' + req.params.id);
+    }
+
     // Event time validations 
     if(startTime >= endTime || startTime < currentTime) {
         return res.redirect('/user/new-event');
@@ -110,6 +114,10 @@ export async function editEventAction(req: Request, res: Response) {
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
 
+    if(description.length > 240) {
+        return res.redirect('/user/edit-event/' + req.params.id);
+    }
+
     const currentEvent = await Event.findByPk(req.params.id);
     if(!currentEvent) {
         return res.redirect('/user');
@@ -186,8 +194,6 @@ export async function editEventAction(req: Request, res: Response) {
 
         } 
     }
-
-    console.log('\n\n Foi \n\n')
 
     currentEvent.title = title;
     currentEvent.startTime = startTime;
