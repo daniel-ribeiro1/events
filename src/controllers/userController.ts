@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { start } from 'repl';
 import { Op } from 'sequelize';
 import { Event } from '../model/Event';
 
@@ -18,7 +17,6 @@ export function newEvent(req: Request, res: Response) {
 }
 export async function newEventAction(req: Request, res: Response) {
     let { title, startTime, endTime, description } = req.body;
-    let currentTime = new Date().getTime();
 
     if(!title || !startTime || !endTime) {
         req.flash('warning', 'Preencha os campos!');
@@ -36,10 +34,6 @@ export async function newEventAction(req: Request, res: Response) {
     // Event time validations 
     if(startTime >= endTime) {
         req.flash('warning', 'O horário de início do evento deve ser maior que o horário de término do mesmo.')
-        return res.redirect('/user/new-event');
-    }
-    if(startTime < currentTime) {
-        req.flash('warning', 'O horário de início do evento deve ser maior que o horário atual.')
         return res.redirect('/user/new-event');
     }
 
@@ -116,6 +110,7 @@ export async function editEvent(req: Request, res: Response) {
     const currentEvent = await Event.findByPk(req.params.id);
 
     if(!currentEvent) {
+        req.flash('error', 'Não foi possível encontrar o evento!');
         return res.redirect('/user');
     }
 
@@ -123,18 +118,24 @@ export async function editEvent(req: Request, res: Response) {
 }
 export async function editEventAction(req: Request, res: Response) {
     let { title, startTime, endTime, description } = req.body;
-    let currentTime = new Date().getTime();
 
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
 
-    if(description.length > 240) {
+    if(description && description.length > 240) {
+        req.flash('warning', 'A descrição não pode contar mais que 240 caracteres.');
         return res.redirect('/user/edit-event/' + req.params.id);
     }
 
     const currentEvent = await Event.findByPk(req.params.id);
     if(!currentEvent) {
+        req.flash('error', 'Não foi possível encontrar o evento!');
         return res.redirect('/user');
+    }
+
+    if(!title || !startTime || !endTime) {
+        req.flash('warning', 'Preencha os campos!');
+        return res.redirect('/user/edit-event/' + req.params.id);
     }
 
     let startTimeEvent = getTimeStringInMilliseconds(currentEvent.startTime.toString());
@@ -142,9 +143,11 @@ export async function editEventAction(req: Request, res: Response) {
 
     if( (startTimeEvent !== startTime) || (endTimeEvent !== endTime) ) {
         // Event time validations 
-        if(startTime >= endTime || startTime < currentTime) {
+        if(startTime >= endTime) {
+            req.flash('warning', 'O horário de início do evento deve ser maior que o horário de término do mesmo.')
             return res.redirect('/user/edit-event/' + req.params.id);
         }
+        
         const events = await Event.findAll({
             where: {
                 [Op.or]: [
@@ -199,10 +202,12 @@ export async function editEventAction(req: Request, res: Response) {
         });
         if(events.length > 0) {
             if(events.length !== 1) {
+                req.flash('error', 'Não foi possível criar o evento pois houve choque de horários.');
                 return res.redirect('/user/edit-event/' + req.params.id);
             }
 
             if(events[0].id !== parseInt(req.params.id)) {
+                req.flash('error', 'Não foi possível criar o evento pois houve choque de horários.');
                 return res.redirect('/user/edit-event/' + req.params.id);
             }
 
@@ -215,6 +220,7 @@ export async function editEventAction(req: Request, res: Response) {
     currentEvent.description = description;
     await currentEvent.save();
 
+    req.flash('success', 'Evento editado com sucesso!');
     res.redirect('/user/edit-event/' + req.params.id);
 }
 
@@ -226,6 +232,7 @@ export async function deleteEventAction(req: Request, res: Response) {
         }
     });
 
+    req.flash('success', 'Evento apagado com sucesso!');
     res.redirect('/user');
 }
 
