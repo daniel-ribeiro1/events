@@ -20,11 +20,15 @@ export async function newEventAction(req: Request, res: Response) {
     let { title, startTime, endTime, description } = req.body;
     let currentTime = new Date().getTime();
 
+    if(!title || !startTime || !endTime) {
+        return res.redirect('/user/new-event');
+    }
+
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
 
-    if(description.length > 240) {
-        return res.redirect('/user/edit-event/' + req.params.id);
+    if(description && description.length > 240) {
+        return res.redirect('/user/new-event');
     }
 
     // Event time validations 
