@@ -20,10 +20,12 @@
                         </small><br/>
                         <small>
                             <small class="badge rounded-pill bg-success">Status:</small>
-                            <small class="text-primary">Em andamento</small>
+                            {{#status}}
+                                <small class="text-{{color}}">{{msg}}</small>
+                            {{/status}}
                         </small>
                     </div>
-                    <p class="card-text mt-3 text-black-50">{{content}}</p>
+                    <p class="card-text mt-3 text-black-50">{{description}}</p>
                     <a href="#" class="card-link">Edit</a>
                     <a href="#" class="card-link text-danger">Delete</a>
                 </div>

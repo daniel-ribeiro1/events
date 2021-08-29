@@ -4,8 +4,12 @@ import { Op } from 'sequelize';
 import { Event } from '../model/Event';
 
 // Get events
-export function myEvents(req: Request, res: Response) {
-    res.render('user/myEvents', {userIsAuthenticated: true});
+export async function myEvents(req: Request, res: Response) {
+    const events = await Event.findAll({
+        order: ['startTime']
+    });
+
+    res.render('user/myEvents', { userIsAuthenticated: true, events});
 }
 
 // Add event
@@ -85,7 +89,7 @@ export async function newEventAction(req: Request, res: Response) {
         description
     });
 
-    res.redirect('/user/new-event');
+    res.redirect('/user');
 }
 
 // Edit event 
