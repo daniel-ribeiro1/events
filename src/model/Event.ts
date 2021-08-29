@@ -4,7 +4,7 @@ import sequelize from "../instance/mysql";
 export interface EventInstance extends Model {
     id: number,
     title: string,
-    startTie: number,
+    startTime: number,
     endTime: number,
     description: string
 }
