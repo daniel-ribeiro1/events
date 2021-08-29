@@ -147,7 +147,7 @@ export async function editEventAction(req: Request, res: Response) {
             req.flash('warning', 'O horário de início do evento deve ser maior que o horário de término do mesmo.')
             return res.redirect('/user/edit-event/' + req.params.id);
         }
-        
+
         const events = await Event.findAll({
             where: {
                 [Op.or]: [
@@ -251,6 +251,7 @@ function getTimeStringInMilliseconds(timeString: string) {
 
     date.setHours(hours);
     date.setMinutes(minutes);
+    date.setSeconds(0);
     date.setMilliseconds(0);
 
     return date.getTime();

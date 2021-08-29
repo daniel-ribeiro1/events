@@ -68,22 +68,24 @@ export const Event = sequelize.define<EventInstance>('Event', {
             let startTimeEvent = this.getDataValue('startTime');
             let endTimeEvent = this.getDataValue('endTime');
 
+            console.log(currentTime + '  ' + startTimeEvent + '  ' + endTimeEvent);
+
             const result = {
                 color: '',
                 msg: '',
             };
 
-            if( (currentTime >= startTimeEvent) && (currentTime <= endTimeEvent )) {
+            if( (currentTime >= startTimeEvent) && (currentTime < endTimeEvent )) {
                 result.color = 'primary';
                 result.msg = 'Em andamento';
             }
 
-            if( (currentTime >= startTimeEvent) && (currentTime >= endTimeEvent) ) {
+            if(currentTime >= endTimeEvent) {
                 result.color = 'success';
                 result.msg = 'Finalizado';
             }
 
-            if( (currentTime < startTimeEvent )) {
+            if(currentTime < startTimeEvent) {
                 result.color = 'warning';
                 result.msg = 'Pendente';
             }
