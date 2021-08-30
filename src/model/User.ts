@@ -4,8 +4,8 @@ import sequelize from "../instance/mysql";
 export interface UserInstance extends Model {
     id: number,
     name: string,
-    email: number,
-    password: number,
+    email: string,
+    password: string,
 }
 
 export const User = sequelize.define<UserInstance>('Event', {

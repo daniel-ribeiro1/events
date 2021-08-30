@@ -8,7 +8,7 @@ export async function myEvents(req: Request, res: Response) {
         order: ['startTime']
     });
 
-    res.render('user/myEvents', { userIsAuthenticated: true, events});
+    res.render('user/myEvents', { events });
 }
 
 // Add event

@@ -5,17 +5,27 @@ import bcrypt from 'bcrypt';
 import { User } from '../model/User';
 
 export function login(req: Request, res: Response) {
-    let userIsAuthenticated = false;
+    res.render('login');
+}
+export async function loginAction(req: Request, res: Response) {
+    res.redirect('/user');
+}
 
-    res.render('login', { userIsAuthenticated });
+export function logoutAction(req: Request, res: Response) {
+    req.logOut();
+    res.locals.user = '';
+    res.locals.isUserAuthenticated = false;
+
+    req.flash('success', 'Você saiu de sua conta!');
+    res.redirect('/login');
 }
 
 export function register(req: Request, res: Response) {
     res.render('register');
 }
 export async function registerAction(req: Request, res: Response) {
-    let data = matchedData(req);
-    let errors = validationResult(req);
+    const data = matchedData(req);
+    const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
         let validationErrors = errors.mapped();
