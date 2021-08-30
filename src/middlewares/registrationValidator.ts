@@ -31,7 +31,7 @@ export default checkSchema({
                 min: 4,
                 max: 8
             },
-            errorMessage: 'A confirmação da senha precisa ser igual a senha.'
+            errorMessage: 'A confirmação da senha precisa ter a mesma quantidade de caracteres que a senha.'
         },
         notEmpty: true
     },

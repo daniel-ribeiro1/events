@@ -5,6 +5,7 @@ import * as UserController from '../controllers/userController';
 import eventValidator from '../middlewares/eventValidator';
 
 import isAuthenticated from '../middlewares/isAuthenticated';
+import profileValidator from '../middlewares/profileValidator';
 
 const router = Router();
 
@@ -21,5 +22,9 @@ router.get('/edit-event/:id', EventController.editEvent);
 router.post('/edit-event/:id', eventValidator, EventController.editEventAction);
 
 router.get('/delete-event/:id', EventController.deleteEventAction);
+
+// User
+router.get('/profile', UserController.editProfile);
+router.post('/profile', profileValidator, UserController.editProfileAction);
 
 export default router;
