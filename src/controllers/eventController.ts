@@ -1,35 +1,53 @@
 import { Request, Response } from 'express';
+import { matchedData, validationResult } from 'express-validator';
 import { Op } from 'sequelize';
+
 import { Event } from '../model/Event';
 
 // Get events
 export async function myEvents(req: Request, res: Response) {
+    const { user }= res.locals;
+    
     const events = await Event.findAll({
-        order: ['startTime']
+        order: ['startTime'],
+        where: {
+            authorId: user.id
+        }
     });
 
     res.render('user/myEvents', { events });
 }
 
+
 // Add event
 export function newEvent(req: Request, res: Response) {
-    res.render('user/newEvent', {userIsAuthenticated: true});
+    res.render('user/newEvent');
 }
 export async function newEventAction(req: Request, res: Response) {
-    let { title, startTime, endTime, description } = req.body;
+    const { user } = res.locals;
+    
+    let { startTime, endTime } = req.body;
+    const data = matchedData(req);
+    const errorsResult = validationResult(req);
 
-    if(!title || !startTime || !endTime) {
-        req.flash('warning', 'Preencha os campos!');
+    if(!errorsResult.isEmpty()) {
+        let validationErrors = errorsResult.mapped();
+
+        for(let err in validationErrors) {
+            if(validationErrors[err].msg) {
+                req.flash('warning', validationErrors[err].msg);
+                return res.redirect('/user/new-event');
+            }
+        }
+    }
+
+    if(!startTime || !endTime) {
+        req.flash('warning', 'Preencha todos os campos!');
         return res.redirect('/user/new-event');
     }
 
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
-
-    if(description && description.length > 240) {
-        req.flash('warning', 'A descrição não pode contar mais que 240 caracteres.');
-        return res.redirect('/user/new-event');
-    }
 
     // Event time validations 
     if(startTime >= endTime) {
@@ -94,49 +112,75 @@ export async function newEventAction(req: Request, res: Response) {
         return res.redirect('/user/new-event');
     }
 
+    let { title, description } = data;
+
     await Event.create({
         title, 
         startTime,
         endTime,
-        description
+        description,
+        authorId: user.id
     });
 
     req.flash('success', 'Evento criado com sucesso!');
     res.redirect('/user');
 }
 
+
 // Edit event 
 export async function editEvent(req: Request, res: Response) {
-    const currentEvent = await Event.findByPk(req.params.id);
+    const { user } = res.locals;
+
+    const currentEvent = await Event.findOne({
+        where: {
+            id: req.params.id,
+            authorId: user.id
+        }
+    });
 
     if(!currentEvent) {
-        req.flash('error', 'Não foi possível encontrar o evento!');
+        req.flash('warning', 'Não foi possível encontrar o evento!');
         return res.redirect('/user');
     }
 
     res.render("user/editEvent", { userIsAuthenticated: true, currentEvent});
 }
 export async function editEventAction(req: Request, res: Response) {
-    let { title, startTime, endTime, description } = req.body;
+    const { user } = res.locals;
+    
+    let { startTime, endTime } = req.body;
+    const data = matchedData(req);
+    const errorsResult = validationResult(req);
+    
+    if(!errorsResult.isEmpty()) {
+        let validationErrors = errorsResult.mapped();
 
-    startTime = getTimeStringInMilliseconds(startTime);
-    endTime = getTimeStringInMilliseconds(endTime);
-
-    if(description && description.length > 240) {
-        req.flash('warning', 'A descrição não pode contar mais que 240 caracteres.');
-        return res.redirect('/user/edit-event/' + req.params.id);
+        for(let err in validationErrors) {
+            if(validationErrors[err].msg) {
+                req.flash('warning', validationErrors[err].msg);
+                return res.redirect('/user/edit-event/' + req.params.id);
+            }
+        }
     }
 
-    const currentEvent = await Event.findByPk(req.params.id);
+    const currentEvent = await Event.findOne({
+        where: {
+            id: req.params.id,
+            authorId: user.id
+        }
+    });
     if(!currentEvent) {
-        req.flash('error', 'Não foi possível encontrar o evento!');
+        req.flash('warning', 'Não foi possível encontrar o evento!');
         return res.redirect('/user');
     }
 
-    if(!title || !startTime || !endTime) {
+    if(!startTime || !endTime) {
         req.flash('warning', 'Preencha os campos!');
         return res.redirect('/user/edit-event/' + req.params.id);
     }
+
+    startTime = getTimeStringInMilliseconds(startTime);
+    endTime = getTimeStringInMilliseconds(endTime);
 
     let startTimeEvent = getTimeStringInMilliseconds(currentEvent.startTime.toString());
     let endTimeEvent = getTimeStringInMilliseconds(currentEvent.endTime.toString());
@@ -144,7 +188,7 @@ export async function editEventAction(req: Request, res: Response) {
     if( (startTimeEvent !== startTime) || (endTimeEvent !== endTime) ) {
         // Event time validations 
         if(startTime >= endTime) {
-            req.flash('warning', 'O horário de início do evento deve ser maior que o horário de término do mesmo.')
+            req.flash('warning', 'O horário de início deve ser maior que o horário de finalização do evento.')
             return res.redirect('/user/edit-event/' + req.params.id);
         }
 
@@ -214,6 +258,8 @@ export async function editEventAction(req: Request, res: Response) {
         } 
     }
 
+    let { title, description } = data;
+
     currentEvent.title = title;
     currentEvent.startTime = startTime;
     currentEvent.endTime = endTime;
@@ -226,9 +272,12 @@ export async function editEventAction(req: Request, res: Response) {
 
 // Delete event
 export async function deleteEventAction(req: Request, res: Response) {
+    const { user } = res.locals;
+
     await Event.destroy({
         where: {
-            id: req.params.id
+            id: req.params.id,
+            authorId: user.id
         }
     });
 

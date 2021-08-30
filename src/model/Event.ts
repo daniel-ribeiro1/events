@@ -1,12 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from "../instance/mysql";
+import { User } from './User';
 
 export interface EventInstance extends Model {
     id: number,
     title: string,
     startTime: number,
     endTime: number,
-    description: string
+    description: string;
+    authorId: number;
 }
 
 export const Event = sequelize.define<EventInstance>('Event', {
@@ -61,6 +63,13 @@ export const Event = sequelize.define<EventInstance>('Event', {
         }
     },
     description: DataTypes.STRING,
+    authorId: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        references: {
+            model: User,
+            key: 'id'
+        }
+    },
     status: {
         type: DataTypes.VIRTUAL,
         get() {

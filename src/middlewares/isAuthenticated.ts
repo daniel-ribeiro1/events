@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../model/User';
 
 export default (req: Request, res: Response, next: NextFunction) => {
     if(!req.user) {
