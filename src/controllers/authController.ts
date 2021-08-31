@@ -55,13 +55,13 @@ export async function registerAction(req: Request, res: Response) {
     }
 
     let { name, email, password } = data;
-    password = await bcrypt.hash(password, 10);
 
     await User.create({
-        name,
-        email,
+        name, 
+        email, 
         password
     });
+
 
     req.flash('success', 'Usuário cadastrado com sucesso! Faça o login.')
     res.redirect('/login');

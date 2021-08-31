@@ -31,7 +31,6 @@ export async function editProfileAction(req: Request, res: Response) {
         return res.redirect('/user');
     }
 
-    console.log(req.body)
     let { name, email, password, confirmPassword } = data;
 
     if(email !== userProfile.email) {
@@ -56,13 +55,9 @@ export async function editProfileAction(req: Request, res: Response) {
         return res.redirect('/user/profile');
     }
 
-    if(password && confirmPassword) {
-        password = await bcrypt.hash(password, 10);
-    }
-
     userProfile.name = name;
     userProfile.email = email;
-    userProfile.password = (password != '') ? password : userProfile.password;
+    if(password) userProfile.password = password;
     await userProfile.save();
 
     req.flash('success', 'Perfil editado com sucesso!');

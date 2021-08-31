@@ -1,5 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt';
+
 import sequelize from "../instance/mysql";
+
 
 export interface UserInstance extends Model {
     id: number,
@@ -19,7 +22,12 @@ export const User = sequelize.define<UserInstance>('Event', {
         type: DataTypes.STRING,
         unique: true,
     },
-    password: DataTypes.STRING,
+    password: {
+        type: DataTypes.STRING,
+        set(password: string) {
+            this.setDataValue('password', bcrypt.hashSync(password, 10));
+        }
+    }
     },
     {
         timestamps: false,
