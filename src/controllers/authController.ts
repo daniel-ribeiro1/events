@@ -1,14 +1,10 @@
 import { Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
-import bcrypt from 'bcrypt';
 
 import { User } from '../models/User';
 
 export function login(req: Request, res: Response) {
     res.render('login');
-}
-export async function loginAction(req: Request, res: Response) {
-    res.redirect('/user');
 }
 
 export function logoutAction(req: Request, res: Response) {
@@ -37,7 +33,6 @@ export async function registerAction(req: Request, res: Response) {
             }
         }
     }
-
     if(data.password !== data.passwordConfirm) {
         req.flash('error', 'As senhas não correspondem!');
         return res.redirect('/register');
