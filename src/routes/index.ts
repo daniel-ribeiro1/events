@@ -10,7 +10,7 @@ import isAuthenticated from "../middlewares/auth/isAuthenticated";
 
 const router = Router();
 
-router.get('/login', AuthController.login);
+router.get('(/login)|(/)', AuthController.login);
 router.post('/login', loginValidator, authenticateUser);          
 
 router.get('/register', AuthController.register);
