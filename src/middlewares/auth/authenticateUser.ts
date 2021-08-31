@@ -31,7 +31,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
                next(err);
            }
 
-           next();
+           res.redirect('/user');
        })
    })(req, res, next);
 }
