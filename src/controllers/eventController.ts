@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
 import { Op } from 'sequelize';
 
-import { Event } from '../model/Event';
+import { Event } from '../models/Event';
 
 // Get events
 export async function myEvents(req: Request, res: Response) {

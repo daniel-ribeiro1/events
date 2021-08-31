@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 
-import { Event } from '../model/Event';
-import { User } from '../model/User';
+import { Event } from '../models/Event';
+import { User } from '../models/User';
 
 export function editProfile(req: Request, res: Response) {
     res.render('user/profile');
