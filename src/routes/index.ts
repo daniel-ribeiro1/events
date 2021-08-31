@@ -1,12 +1,11 @@
 import { Router } from "express";
-import passport from "passport";
 
 import * as AuthController from '../controllers/authController';
 
 import registerValidator from "../middlewares/validators/registrationValidator";
 import loginValidator from "../middlewares/validators/loginValidator";
 
-import myLocalStrategy from "../middlewares/auth/myLocalStrategy";
+import myLocalStrategy from "../middlewares/auth/authenticateUser";
 import isAuthenticated from "../middlewares/auth/isAuthenticated";
 
 const router = Router();

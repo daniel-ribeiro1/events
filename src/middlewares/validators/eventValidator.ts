@@ -5,7 +5,6 @@ export default checkSchema({
         isLength: {
             options: {
                 min: 2,
-                max: 255
             },
             errorMessage: 'O título precisa de no mínimo 2 caracteres.'
         },
@@ -15,7 +14,7 @@ export default checkSchema({
         optional: true,
         isLength: {
             options: {
-                max: 249
+                max: 240
             }, 
             errorMessage: 'A descrição não pode contar mais que 240 caracteres.'
         }
