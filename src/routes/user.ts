@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 import * as EventController from '../controllers/eventController';
 import * as UserController from '../controllers/userController';
-import eventValidator from '../middlewares/eventValidator';
+import eventValidator from '../middlewares/validators/eventValidator';
 
 import isAuthenticated from '../middlewares/isAuthenticated';
-import profileValidator from '../middlewares/profileValidator';
+import profileValidator from '../middlewares/validators/profileValidator';
 
 const router = Router();
 

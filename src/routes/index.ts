@@ -3,8 +3,8 @@ import passport from "passport";
 
 import * as AuthController from '../controllers/authController';
 
-import registerValidator from "../middlewares/registrationValidator";
-import loginValidator from "../middlewares/loginValidator";
+import registerValidator from "../middlewares/validators/registrationValidator";
+import loginValidator from "../middlewares/validators/loginValidator";
 
 import myLocalStrategy from "../middlewares/myLocalStrategy";
 import isAuthenticated from "../middlewares/isAuthenticated";
