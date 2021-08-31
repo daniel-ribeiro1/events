@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 
-import { User } from '../model/User';
+import { User } from '../models/User';
 
 export function login(req: Request, res: Response) {
     res.render('login');
