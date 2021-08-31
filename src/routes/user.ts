@@ -27,4 +27,6 @@ router.get('/delete-event/:id', EventController.deleteEventAction);
 router.get('/profile', UserController.editProfile);
 router.post('/profile', profileValidator, UserController.editProfileAction);
 
+router.post('/profile/delete', UserController.deleteProfileAction);
+
 export default router;

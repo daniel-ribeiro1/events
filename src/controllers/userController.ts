@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
-import bcrypt from 'bcrypt';
-
 import { Event } from '../models/Event';
+
 import { User } from '../models/User';
 
 export function editProfile(req: Request, res: Response) {
@@ -62,4 +61,30 @@ export async function editProfileAction(req: Request, res: Response) {
 
     req.flash('success', 'Perfil editado com sucesso!');
     res.redirect('/user/profile');
+}
+
+export async function deleteProfileAction(req: Request, res: Response) {
+    const { user } = res.locals;
+
+    const userProfile = await User.findByPk(user.id);
+    const userEvents = await Event.count({
+        where: {
+            authorId: user.id
+        }
+    });
+
+    if(!userProfile) {
+        req.flash('error', 'Não foi possível apagar a conta.');
+        return res.redirect('/user');
+    }
+
+    if(userEvents > 0) {
+        req.flash('warning', 'Antes de apagar a conta, é necessário apagar todos os eventos vinculados ao usuário.');
+        return res.redirect('/user');
+    }
+
+    userProfile.destroy();
+
+    req.flash('success', 'Conta apagada com sucesso.');
+    res.redirect('/login');
 }

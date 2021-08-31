@@ -7,6 +7,10 @@
     {{>partials/messages}}
     {{#isUserAuthenticated}}
         {{#user}}
+             <form action="/user/profile/delete" method="POST">
+                <button class="btn btn-outline-danger m-3">Apagar perfil</button>
+            </form>
+
             <form method="POST" class="col-md-10 col-lg-8 mx-auto my-5 p-2">
                 <div class="row form-floating">
                 <input class="form-control" type="text" name="name"value="{{name}}" placeholder="Digite o nome do usuário aqui" id="name"/>
