@@ -29,7 +29,8 @@ export async function newEventAction(req: Request, res: Response) {
     let { startTime, endTime } = req.body;
     const data = matchedData(req);
     const errorsResult = validationResult(req);
-
+    
+    // check validation errors
     if(!errorsResult.isEmpty()) {
         let validationErrors = errorsResult.mapped();
 
@@ -41,13 +42,13 @@ export async function newEventAction(req: Request, res: Response) {
         }
     }
 
-    if(!startTime || !endTime) {
-        req.flash('warning', 'Preencha todos os campos!');
-        return res.redirect('/user/new-event');
-    }
-
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
+
+    if(!startTime || !endTime) {
+        req.flash('error', 'Preencha os campos com horários válidos!');
+        return res.redirect('/user/new-event');
+    }
 
     // Event time validations 
     if(startTime >= endTime) {
@@ -147,11 +148,11 @@ export async function editEvent(req: Request, res: Response) {
 }
 export async function editEventAction(req: Request, res: Response) {
     const { user } = res.locals;
-    
     let { startTime, endTime } = req.body;
     const data = matchedData(req);
     const errorsResult = validationResult(req);
     
+    // check validation errors
     if(!errorsResult.isEmpty()) {
         let validationErrors = errorsResult.mapped();
 
@@ -174,13 +175,13 @@ export async function editEventAction(req: Request, res: Response) {
         return res.redirect('/user');
     }
 
-    if(!startTime || !endTime) {
-        req.flash('warning', 'Preencha os campos!');
-        return res.redirect('/user/edit-event/' + req.params.id);
-    }
-
     startTime = getTimeStringInMilliseconds(startTime);
     endTime = getTimeStringInMilliseconds(endTime);
+
+    if(!startTime || !endTime) {
+        req.flash('error', 'Preencha os campos com horários válidos!');
+        return res.redirect('/user/edit-event' + req.params.id);
+    }
 
     let startTimeEvent = getTimeStringInMilliseconds(currentEvent.startTime.toString());
     let endTimeEvent = getTimeStringInMilliseconds(currentEvent.endTime.toString());
@@ -287,11 +288,19 @@ export async function deleteEventAction(req: Request, res: Response) {
 
 
 // Functions
-function getTimeStringInMilliseconds(timeString: string) {
+function getTimeStringInMilliseconds(timeString: string | null): number | boolean {
+    if(!timeString) {
+        return false;
+    }
+    
     const date = new Date();
     
     let hours = parseInt(timeString.split(':')[0]);
     let minutes = parseInt(timeString.split(':')[1]);
+
+    if(isNaN(hours) || isNaN(minutes)) {
+        return false;
+    }
 
     date.setHours(hours);
     date.setMinutes(minutes);
