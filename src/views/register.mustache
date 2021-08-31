@@ -5,8 +5,8 @@
 </div>
 <div class="d-flex align-items-center justify-content-center container max-width-1200 mx-auto">
     
-    <div class="login container m-lg-5 p-5 rounded bg-primary">
-        <h1 class="text-center text-light mb-4"> Cadastre-se </h1>
+    <div class="container-fluid col-md-8 m-lg-5 p-5 rounded bg-light shadow">
+        <h1 class="text-center text-primary mb-4"> Cadastre-se </h1>
         <form method="POST" class="form-floating">
             <div class="form-floating row">
                 <input class="form-control" type="name" id="name" name="name" placeholder="Digite seu e-mail aqui"/>
@@ -16,19 +16,22 @@
                 <input class="form-control" type="email" id="email" name="email" placeholder="Digite seu e-mail aqui"/>
                 <label for="email">E-mail</label>
             </div>
-            <div class="form-floating row my-3">
-                <input class="form-control" type="password" id="password" name="password" placeholder="Digite sua senha aqui"/>
-                <label for="password">Senha</label>
-            </div>
-            <div class="form-floating row my-3">
-                <input class="form-control" type="password" id="password-confirm" name="passwordConfirm" placeholder="Digite sua senha aqui"/>
-                <label for="password-confirm">Confirmar senha</label>
+            <div class="row my-3">
+                <div class="form-floating col-sm-12 col-md-5 p-0 my-2 my-md-0">
+                    <input class="form-control" type="password" id="password" name="password" placeholder="Digite sua senha aqui"/>
+                    <label for="password">Senha</label>
+                </div>
+                <div class="form-floating col-sm-12 col-md-5 p-0 ms-md-auto my-2 my-md-0">
+                    <input class="form-control" type="password" id="password-confirm" name="passwordConfirm" placeholder="Digite sua senha aqui"/>
+                    <label for="password-confirm">Confirmar senha</label>
+                </div>
+                <small class="text-muted text-justify my-2">A senha deve ter no mínimo 4 caracteres e no máximo 8.</small>
             </div>
 
-            <button class="btn btn-outline-light my-3">Cadastrar</button>
+            <button class="btn btn-outline-primary mt-1 mb-3">Cadastrar</button>
 
             <br/>
-            <small class="text-center text-light"><a href="/login" class="link-light">Fazer login<a></small>
+            <small class="text-center text-primary"><a href="/login">Fazer login<a></small>
         </form>
     </div>
 </div>
