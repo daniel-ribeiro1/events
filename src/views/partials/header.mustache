@@ -15,7 +15,7 @@
    <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid max-width-1200 mx-auto">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{#isUserAuthenticated}} /user {{/isUserAuthenticated}} {{^isUserAuthenticated}} /login {{/isUserAuthenticated}}">
                     <img src="/images/logo.png" alt="" width="30" height="24" class="d-inline-blok text-align-top">
                     Eventos
                 </a>

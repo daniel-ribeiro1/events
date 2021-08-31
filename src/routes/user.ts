@@ -4,7 +4,7 @@ import * as EventController from '../controllers/eventController';
 import * as UserController from '../controllers/userController';
 import eventValidator from '../middlewares/validators/eventValidator';
 
-import isAuthenticated from '../middlewares/isAuthenticated';
+import isAuthenticated from '../middlewares/auth/isAuthenticated';
 import profileValidator from '../middlewares/validators/profileValidator';
 
 const router = Router();

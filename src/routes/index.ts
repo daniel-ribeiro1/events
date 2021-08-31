@@ -6,8 +6,8 @@ import * as AuthController from '../controllers/authController';
 import registerValidator from "../middlewares/validators/registrationValidator";
 import loginValidator from "../middlewares/validators/loginValidator";
 
-import myLocalStrategy from "../middlewares/myLocalStrategy";
-import isAuthenticated from "../middlewares/isAuthenticated";
+import myLocalStrategy from "../middlewares/auth/myLocalStrategy";
+import isAuthenticated from "../middlewares/auth/isAuthenticated";
 
 const router = Router();
 
