@@ -22,15 +22,13 @@ server.use(session({
     resave: false,
     saveUninitialized: false
 }));
-// Flash
-server.use(flash());
 
+// Flash messages
+server.use(flash());
 server.use((req, res, next) => {
     res.locals.successMessage = req.flash('success');
     res.locals.errorMessage = req.flash('error');
     res.locals.warningMessage = req.flash('warning');
-    res.locals.failureFlash = req.flash('failureFlash');
-    res.locals.successFlash = req.flash('successFlash');
 
     next();
 });
@@ -47,8 +45,8 @@ passport.deserializeUser(async (userData: UserInstance, done) => {
 
     done(null, user); 
 });
-
 passport.use(localStrategy);
+
 // Engine
 server.engine('mustache', mustache());
 server.set('views', join(__dirname, 'views'));
