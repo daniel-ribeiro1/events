@@ -76,9 +76,7 @@ export const Event = sequelize.define<EventInstance>('Event', {
             let currentTime = new Date().getTime();
             let startTimeEvent = this.getDataValue('startTime');
             let endTimeEvent = this.getDataValue('endTime');
-
-            console.log(currentTime + '  ' + startTimeEvent + '  ' + endTimeEvent);
-
+            
             const result = {
                 color: '',
                 msg: '',
