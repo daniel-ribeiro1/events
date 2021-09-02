@@ -12,7 +12,6 @@ import userRoutes from './routes/user';
 import { User, UserInstance } from './models/User';
 import localStrategy from './security/localStrategy';
 
-
 dotenv.config();
 const server = express();
 
@@ -63,7 +62,7 @@ server.use(mainRoutes);
 server.use('/user', userRoutes);
 
 server.get('*', (req, res) => {
-    res.render('notFound', {userIsAuthenticated: true});
+    res.render('notFound');
 });
 
 server.listen(process.env.PORT);
