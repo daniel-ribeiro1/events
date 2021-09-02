@@ -288,7 +288,7 @@ export async function deleteEventAction(req: Request, res: Response) {
 
 
 // Functions
-function getTimeStringInMilliseconds(timeString: string | null): number | boolean {
+function getTimeStringInMilliseconds(timeString: string): number | boolean {
     if(!timeString) {
         return false;
     }
