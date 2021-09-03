@@ -83,7 +83,7 @@ export async function deleteProfileAction(req: Request, res: Response) {
         return res.redirect('/user');
     }
 
-    userProfile.destroy();
+    await userProfile.destroy();
 
     req.flash('success', 'Conta apagada com sucesso.');
     res.redirect('/login');
